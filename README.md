@@ -1,134 +1,115 @@
-# etec_projeto_cronograma_escolar
+# Connect: Painel Digital Escolar
 
+**Repositório:** `etec_projeto_cronograma_escolar`
 
-
-alunos:
-milena bispo
-talita gonçalves
-ebert torquato
-# Painel Digital Escolar
+**Alunos:**
+- Milena Bispo
+- Talita Gonçalves
+- Ebert Torquato
 
 ## Sobre o Projeto
 
-O **Painel Digital Escolar** é um projeto desenvolvido com o objetivo de facilitar a organização acadêmica de alunos e professores através de um sistema moderno, acessível e colaborativo.
+O **Connect: Painel Digital Escolar** é um projeto desenvolvido com o objetivo de facilitar a organização acadêmica de alunos e professores por meio de um sistema moderno, acessível e colaborativo.
 
-A plataforma funcionará como um cronograma digital interativo, permitindo não apenas a visualização dos horários de aula, mas também o acompanhamento de tarefas, trabalhos, eventos escolares e informações importantes do dia a dia escolar.
+A plataforma funcionará como um cronograma digital interativo, permitindo a visualização dos horários de aula, o acompanhamento de tarefas e trabalhos, além da consulta de eventos escolares e informações importantes do dia a dia.
 
 O sistema foi pensado para oferecer mais praticidade, comunicação e organização dentro do ambiente escolar, tornando a rotina mais eficiente para todos.
 
 ---
 
-# Objetivo Principal
+## Objetivo Principal
 
-Criar uma ferramenta digital simples, organizada e modificável que ajude alunos e professores a acompanharem os horários escolares, atividades e eventos da escola de forma clara e acessível.
+Criar uma ferramenta digital simples, organizada e modificável que ajude alunos e professores a acompanharem os horários escolares, as atividades e os eventos da escola de forma clara e acessível.
 
-Além de organizar a rotina acadêmica, o projeto busca melhorar a comunicação entre turmas e professores, centralizando todas as informações importantes em um único painel digital.
-
----
-
-# Funcionalidades do Sistema
-
-## Cronograma de Aulas
-
-* Visualização dos horários organizados por turma
-* Separação por matéria, professor e horário
-* Estrutura em tabelas para melhor organização
-
-## Registro de Atividades
-
-* Adição de tarefas e trabalhos passados em aula
-* Avisos importantes sobre avaliações
-* Atualizações diárias feitas pelos professores
-
-## Informações Escolares
-
-* Avisos sobre faltas de professores
-* Divulgação de palestras, eventos e passeios
-* Comunicados importantes para cada turma
-
-## Sistema Colaborativo
-
-* Todos os professores poderão editar o painel
-* Cada turma terá 1 representante escolhido pelos alunos
-* O representante poderá adicionar informações importantes do dia
-
-## Desempenho das Turmas
-
-O sistema também contará com uma área dedicada ao acompanhamento do desempenho acadêmico das turmas.
-
-### Funcionalidades:
-
-* Gráfico de desempenho de cada turma
-* Média geral das notas
-* Comparação entre turmas
-* Acompanhamento da evolução escolar
-* Indicadores de rendimento acadêmico
-* Relatórios organizados por turma
-
-### Objetivo:
-
-Ajudar professores e alunos a identificarem dificuldades, acompanharem o progresso da turma e incentivarem uma melhor organização dos estudos.
+Além de organizar a rotina acadêmica, o projeto busca melhorar a comunicação entre turmas e professores, centralizando as informações importantes em um único painel digital.
 
 ---
 
-# Estrutura do Painel
+## Funcionalidades do Sistema
 
-O painel será dividido em tabelas organizadas contendo:
+### 1. Cronograma de Aulas
 
-* Horário das aulas
-* Nome das matérias
-* Professores responsáveis
-* Atividades do dia
-* Eventos escolares
-* Avisos importantes
-* Gráficos de desempenho das turmas
+- Visualização dos horários organizados por turma.
+- Separação por matéria, professor e horário.
+- Organização das informações em tabelas.
 
----
+### 2. Registro de Atividades
 
-# Tecnologias Utilizadas
+- Adição de tarefas e trabalhos passados em aula.
+- Avisos importantes sobre avaliações.
+- Atualizações diárias feitas pelos professores.
 
-* HTML
-* CSS
-* JavaScript
-* Git & GitHub
+### 3. Informações Escolares
 
-*(As tecnologias podem ser ampliadas futuramente conforme o desenvolvimento do projeto.)*
+- Avisos sobre faltas de professores.
+- Divulgação de palestras, eventos e passeios.
+- Comunicados importantes para cada turma.
 
----
+### 4. Sistema Colaborativo
 
-# Diferenciais do Projeto
-
-* Organização escolar centralizada
-* Comunicação mais eficiente entre escola e alunos
-* Facilidade de acesso às informações
-* Sistema colaborativo e modificável
-* Acompanhamento do desempenho das turmas
-* Melhor planejamento da rotina acadêmica
+- Permissão para que os professores editem e atualizem o painel.
+- Organização das informações de acordo com cada turma.
+- Atualização dos avisos e das atividades para manter os alunos informados.
 
 ---
 
-# Equipe
+## Estrutura do Painel
 
-Projeto desenvolvido para a disciplina de **Desenvolvimento de Sistemas**, com foco em inovação, organização e melhoria da rotina escolar.
+O painel será dividido em seções organizadas, contendo:
 
----
-
-# Futuras Melhorias
-
-* Sistema de login para alunos e professores
-* Notificações automáticas
-* Aplicativo mobile
-* Integração com calendário escolar
-* Área para envio de arquivos e atividades
-* Dashboard com gráficos interativos
-* Relatórios automáticos de desempenho
+- Horários das aulas.
+- Nome das matérias.
+- Professores responsáveis.
+- Atividades do dia.
+- Eventos escolares.
+- Avisos e comunicados importantes.
 
 ---
 
-# Conclusão
+## Tecnologias Utilizadas
 
-O **Painel Digital Escolar** foi criado para transformar a maneira como alunos e professores organizam sua rotina escolar, trazendo mais praticidade, clareza e eficiência para o ambiente acadêmico.
+- **HTML:** estrutura das páginas.
+- **CSS:** aparência e organização visual.
+- **JavaScript:** interatividade e funcionalidades.
+- **Git e GitHub:** controle de versões e colaboração entre os integrantes da equipe.
 
-Nosso principal objetivo é facilitar os estudos, melhorar a comunicação escolar e tornar a organização do dia a dia muito mais simples e acessível para todos.
+As tecnologias poderão ser ampliadas futuramente conforme o desenvolvimento do projeto.
+
+---
+
+## Diferenciais do Projeto
+
+- Organização escolar centralizada.
+- Comunicação mais eficiente entre escola e alunos.
+- Facilidade de acesso às informações.
+- Sistema colaborativo e atualizável.
+- Visualização organizada dos horários e das atividades.
+- Melhor planejamento da rotina acadêmica.
+
+---
+
+## Equipe
+
+Projeto desenvolvido por **Milena Bispo, Talita Gonçalves e Ebert Torquato** para a disciplina de **Desenvolvimento de Sistemas**, com foco em inovação, organização e melhoria da rotina escolar.
+
+---
+
+## Futuras Melhorias
+
+- Sistema de login para alunos e professores.
+- Notificações automáticas sobre atividades e avisos.
+- Desenvolvimento de um aplicativo para dispositivos móveis.
+- Integração com o calendário escolar.
+- Área para envio e consulta de arquivos e atividades.
+- Personalização do painel por turma.
+- Atualização das informações em tempo real.
+
+---
+
+## Conclusão
+
+O **Connect: Painel Digital Escolar** foi criado para transformar a maneira como alunos e professores organizam sua rotina escolar, trazendo mais praticidade, clareza e eficiência para o ambiente acadêmico.
+
+Nosso principal objetivo é facilitar o acesso às informações, melhorar a comunicação escolar e tornar a organização do dia a dia mais simples e acessível para todos.
 
 
