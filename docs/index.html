@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CAMPUS — Painel Digital Escolar</title>
+  <meta name="description" content="Painel Digital Escolar com autenticação e interfaces dedicadas para Alunos e Professores.">
+  <meta name="theme-color" content="#0B0A0D">
+
+  <!-- Google Fonts: Space Grotesk & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Estilos -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%23341539%22/><polygon points=%2250,25 75,50 50,75 25,50%22 fill=%22%23F3EFF5%22/></svg>">
+</head>
+<body>
+  <a href="#mainContent" class="skip-link">Pular para o conteúdo principal</a>
+
+  <!-- ====================================================================
+       1. PÁGINA DE LOGIN (AUTENTICAÇÃO)
+       ==================================================================== -->
+  <div class="auth-wrapper" id="view-auth">
+    <div class="auth-card">
+      <div class="auth-header">
+        <div class="auth-brand-symbol">
+          <!-- Ícone Educacional / Graduação Linear -->
+          <svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+        </div>
+        <h1 class="auth-title">Painel Digital Escolar</h1>
+        <p class="auth-subtitle">Entre com suas credenciais institucionais</p>
+      </div>
+
+      <!-- Alerta de Erro de Autenticação -->
+      <div class="auth-alert-error" id="authErrorAlert" role="alert">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span id="authErrorMsg">Credenciais inválidas.</span>
+      </div>
+
+      <!-- Formulário de Login -->
+      <form id="loginForm" novalidate>
+        <div class="form-group">
+          <label for="loginEmail">E-mail ou Usuário <span class="req">*</span></label>
+          <input type="email" id="loginEmail" class="form-control" placeholder="ex: aluno@etec.sp.gov.br ou RM" required autocomplete="username">
+          <div class="field-error" id="loginEmailError">Informe seu e-mail ou usuário institucional.</div>
+        </div>
+
+        <div class="form-group">
+          <label for="loginPassword">Senha de Acesso <span class="req">*</span></label>
+          <div class="password-input-group">
+            <input type="password" id="loginPassword" class="form-control" placeholder="Digite sua senha" required autocomplete="current-password">
+            <button type="button" class="btn-toggle-password" id="btnTogglePassword" aria-label="Mostrar ou ocultar senha" title="Alternar visibilidade da senha">
+              <!-- Ícone Olho Fechado / Aberto SVG -->
+              <svg id="eyeIconOpen" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              <svg id="eyeIconClosed" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+            </button>
+          </div>
+          <div class="field-error" id="loginPasswordError">Informe sua senha de acesso.</div>
+        </div>
+
+        <div class="auth-row-extra">
+          <label style="display:flex; align-items:center; gap:6px; cursor:pointer;">
+            <input type="checkbox" id="loginRemember">
+            <span>Lembrar meu acesso</span>
+          </label>
+          <a class="auth-forgot-link" id="btnForgotPwd">Esqueci minha senha</a>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-auth-submit" id="btnSubmitLogin">
+          <span class="btn-spinner" id="loginSpinner"></span>
+          <span id="btnSubmitText">Entrar no Painel</span>
+        </button>
+      </form>
+
+      <!-- Atalhos de Demonstração para Avaliação -->
+      <div class="demo-accounts-box">
+        <div class="demo-accounts-title">Acesso Rápido de Testes (Contas Demonstrativas)</div>
+        <div class="demo-account-pills">
+          <button type="button" class="demo-pill-btn" id="btnFillStudent">
+            <div>
+              <strong>Gabriel Silva</strong> (aluno@etec.sp.gov.br)
+              <div style="font-size:0.72rem; color:var(--color-text-muted);">2º DS &bull; Senha: aluno123</div>
+            </div>
+            <span class="demo-pill-badge badge-student">Aluno</span>
+          </button>
+
+          <button type="button" class="demo-pill-btn" id="btnFillTeacher">
+            <div>
+              <strong>Prof. Fernando Santos</strong> (professor@etec.sp.gov.br)
+              <div style="font-size:0.72rem; color:var(--color-text-muted);">Docente DS &bull; Senha: prof123</div>
+            </div>
+            <span class="demo-pill-badge badge-teacher">Professor</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       2. INTERFACE DO ALUNO (ESTUDANTE)
+       ==================================================================== -->
+  <div class="app-container" id="view-student-app">
+    <!-- Sidebar do Aluno -->
+    <aside class="sidebar" id="studentSidebar" aria-label="Menu do Aluno">
+      <div class="sidebar-header">
+        <div class="brand-wrapper">
+          <div class="brand-symbol" aria-hidden="true"></div>
+          <div class="brand-text">
+            <span class="brand-name">CAMPUS</span>
+            <span class="brand-sub">Portal do Aluno</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Identificação do Aluno -->
+      <div class="sidebar-user-card">
+        <div class="user-avatar-circle" id="studentAvatar">GS</div>
+        <div class="user-meta-info">
+          <span class="user-meta-name" id="studentName">Gabriel Silva</span>
+          <span class="user-meta-badge" id="studentClassBadge">Aluno &bull; 2º DS</span>
+        </div>
+      </div>
+
+      <!-- Menu do Aluno (8 Itens de Consulta) -->
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-student-view="overview">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          <span>Início</span>
+        </button>
+
+        <button class="nav-item" data-student-view="schedule">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span>Meu cronograma</span>
+        </button>
+
+        <button class="nav-item" data-student-view="tasks">
+          <svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          <span>Tarefas e trabalhos</span>
+          <span class="badge-pill" id="studentBadgeTasks">0</span>
+        </button>
+
+        <button class="nav-item" data-student-view="assessments">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          <span>Avaliações</span>
+          <span class="badge-pill" id="studentBadgeEvals">0</span>
+        </button>
+
+        <button class="nav-item" data-student-view="notices">
+          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <span>Avisos</span>
+          <span class="badge-pill" id="studentBadgeNotices">0</span>
+        </button>
+
+        <button class="nav-item" data-student-view="events">
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span>Eventos</span>
+        </button>
+
+        <button class="nav-item" data-student-view="profile">
+          <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>Meu perfil</span>
+        </button>
+
+        <button class="nav-item nav-item-logout btn-action-logout">
+          <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          <span>Sair</span>
+        </button>
+      </nav>
+    </aside>
+
+    <!-- Conteúdo Principal do Aluno -->
+    <div class="main-layout">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="mobile-menu-btn" data-toggle-sidebar="studentSidebar" aria-label="Abrir menu">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+          <h2 class="topbar-page-title" id="studentTopbarTitle">Início</h2>
+        </div>
+
+        <div class="topbar-right">
+          <div class="user-header-pill">
+            <span class="user-avatar-circle" style="width:26px; height:26px; font-size:0.75rem;" id="studentTopbarAvatar">GS</span>
+            <span id="studentTopbarName">Gabriel Silva</span>
+          </div>
+          <button class="btn-logout-header btn-action-logout" title="Encerrar sessão">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            <span>Sair</span>
+          </button>
+        </div>
+      </header>
+
+      <main class="view-viewport" id="studentContent">
+        <!-- 1. Aluno: Início -->
+        <section class="page-view active" id="student-view-overview">
+          <div class="hero-editorial">
+            <div class="hero-meta-row">
+              <span class="hero-date" id="studentHeroDate">Quinta-feira, 29 de Outubro de 2026</span>
+              <span class="hero-class-tag" id="studentHeroClass">Turma: 2º DS</span>
+            </div>
+            <h2 class="hero-title" id="studentHeroGreeting">Bom dia, Gabriel.</h2>
+            <p class="hero-subtitle">Aqui está o resumo da sua rotina escolar: confira as aulas de hoje, trabalhos com prazos e novos comunicados.</p>
+          </div>
+
+          <!-- Indicadores do Aluno -->
+          <div class="indicators-grid">
+            <div class="indicator-card" data-student-jump="schedule" tabindex="0">
+              <div class="indicator-top">
+                <span class="indicator-tag">Próxima Aula</span>
+                <div class="indicator-icon-box"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+              </div>
+              <div class="indicator-value" id="sIndNextClassVal">--</div>
+              <div class="indicator-desc" id="sIndNextClassDesc">Aguardando dados...</div>
+            </div>
+
+            <div class="indicator-card" data-student-jump="tasks" tabindex="0">
+              <div class="indicator-top">
+                <span class="indicator-tag">Tarefas Pendentes</span>
+                <div class="indicator-icon-box"><svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+              </div>
+              <div class="indicator-value" id="sIndPendingTasks">0</div>
+              <div class="indicator-desc">Atividades escolares em aberto</div>
+            </div>
+
+            <div class="indicator-card" data-student-jump="assessments" tabindex="0">
+              <div class="indicator-top">
+                <span class="indicator-tag">Próxima Avaliação</span>
+                <div class="indicator-icon-box"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+              </div>
+              <div class="indicator-value" id="sIndNextEval">--</div>
+              <div class="indicator-desc" id="sIndNextEvalDesc">Agendamento próximo</div>
+            </div>
+
+            <div class="indicator-card" data-student-jump="notices" tabindex="0">
+              <div class="indicator-top">
+                <span class="indicator-tag">Avisos Recentes</span>
+                <div class="indicator-icon-box"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+              </div>
+              <div class="indicator-value" id="sIndNotices">0</div>
+              <div class="indicator-desc">Comunicados da escola</div>
+            </div>
+          </div>
+
+          <!-- Colunas de Cronograma de Hoje e Tarefas do Aluno -->
+          <div class="dashboard-columns">
+            <div class="panel-block">
+              <div class="panel-header">
+                <h3 class="panel-title">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  <span>Horários do Dia</span>
+                </h3>
+                <span class="panel-action-link" data-student-jump="schedule">Ver cronograma completo &rarr;</span>
+              </div>
+              <div class="timeline-list" id="studentTodaySchedule"></div>
+            </div>
+
+            <div class="panel-block">
+              <div class="panel-header">
+                <h3 class="panel-title">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                  <span>Trabalhos Próximos do Prazo</span>
+                </h3>
+                <span class="panel-action-link" data-student-jump="tasks">Ver todas as tarefas &rarr;</span>
+              </div>
+              <div class="mini-task-list" id="studentUpcomingTasks"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. Aluno: Meu Cronograma -->
+        <section class="page-view" id="student-view-schedule">
+          <div class="view-header">
+            <div class="view-header-text">
+              <h2>Meu Cronograma de Aulas</h2>
+              <p>Horários oficiais das disciplinas da sua turma por dia da semana.</p>
+            </div>
+          </div>
+          <div class="days-tab-nav" id="studentDaysNav"></div>
+          <div class="schedule-grid-cards" id="studentScheduleCards"></div>
+        </section>
+
+        <!-- 3. Aluno: Tarefas e Trabalhos -->
+        <section class="page-view" id="student-view-tasks">
+          <div class="view-header">
+            <div class="view-header-text">
+              <h2>Tarefas e Trabalhos</h2>
+              <p>Consulte as atividades passadas pelos docentes e marque quando concluir.</p>
+            </div>
+          </div>
+          <div class="filter-toolbar">
+            <div class="search-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="sTaskSearch" placeholder="Buscar por título ou matéria...">
+            </div>
+            <select id="sTaskStatusFilter" class="filter-dropdown">
+              <option value="all">Todas as Tarefas</option>
+              <option value="pending">Pendentes</option>
+              <option value="completed">Concluídas</option>
+              <option value="overdue">Atrasadas</option>
+            </select>
+          </div>
+          <div class="cards-grid" id="studentTasksGrid"></div>
+        </section>
+
+        <!-- 4. Aluno: Avaliações -->
+        <section class="page-view" id="student-view-assessments">
+          <div class="view-header">
+            <div class="view-header-text">
+              <h2>Próximas Avaliações</h2>
+              <p>Calendário de provas teóricas, práticas em laboratório e apresentações de projeto.</p>
+            </div>
+          </div>
+          <div class="cards-grid" id="studentAssessmentsGrid"></div>
+        </section>
+
+        <!-- 5. Aluno: Avisos -->
+        <section class="page-view" id="student-view-notices">
+          <div class="view-header">
+            <div class="view-header-text">
+              <h2>Avisos e Comunicados</h2>
+              <p>Informes oficiais da escola e comunicações de ausências docentes confirmadas.</p>
+            </div>
+          </div>
+          <div class="cards-grid" id="studentNoticesGrid"></div>
+        </section>
+
+        <!-- 6. Aluno: Eventos -->
+        <section class="page-view" id="student-view-events">
+          <div class="view-header">
+            <div class="view-header-text">
+              <h2>Eventos Escolares</h2>
+              <p>Palestras, visitas técnicas e feiras de projetos acadêmicos.</p>
+            </div>
+          </div>
+          <div class="cards-grid" id="studentEventsGrid"></div>
+        </section>
+
+        <!-- 7. Aluno: Meu Perfil -->
+        <section class="page-view" id="student-view-profile">
+          <div class="view-header">
+            <div class="view-header-text">
+              <h2>Meu Perfil de Estudante</h2>
+              <p>Informações de matrícula e dados cadastrais da sua conta institucional.</p>
+            </div>
+          </div>
+          <div class="profile-card">
+            <div class="profile-top">
+              <div class="profile-avatar-large" id="pStudentAvatarBig">GS</div>
+              <div>
+                <h3 id="pStudentFullName" style="font-size:1.4rem;">Gabriel Silva</h3>
+                <span class="demo-pill-badge badge-student">Aluno Matriculado</span>
+                <p id="pStudentBio" style="margin-top:6px; font-size:0.9rem;">Estudante do curso técnico.</p>
+              </div>
+            </div>
+            <div class="profile-details-grid">
+              <div class="profile-detail-item">
+                <span class="profile-detail-label">E-mail Institucional</span>
+                <span class="profile-detail-val" id="pStudentEmail">aluno@etec.sp.gov.br</span>
+              </div>
+              <div class="profile-detail-item">
+                <span class="profile-detail-label">Turma Vinculada</span>
+                <span class="profile-detail-val" id="pStudentTurma">2º DS (Desenvolvimento de Sistemas)</span>
+              </div>
+              <div class="profile-detail-item">
+                <span class="profile-detail-label">Registro de Matrícula (RM)</span>
+                <span class="profile-detail-val" id="pStudentRM">2026-0214</span>
+              </div>
+              <div class="profile-detail-item">
+                <span class="profile-detail-label">Período</span>
+                <span class="profile-detail-val">Manhã</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="app-footer">
+        <div class="footer-inner">
+          <div><strong>CAMPUS</strong> &bull; Painel Digital Escolar (Área do Estudante)</div>
+          <div>Desenvolvimento de Sistemas &bull; ETEC</div>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       3. INTERFACE DO PROFESSOR (DOCENTE)
+       ==================================================================== -->
+  <div class="app-container" id="view-teacher-app">
+    <!-- Sidebar do Professor -->
+    <aside class="sidebar" id="teacherSidebar" aria-label="Menu do Professor">
+      <div class="sidebar-header">
+        <div class="brand-wrapper">
+          <div class="brand-symbol" aria-hidden="true"></div>
+          <div class="brand-text">
+            <span class="brand-name">CAMPUS</span>
+            <span class="brand-sub">Portal do Professor</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Identificação do Professor -->
+      <div class="sidebar-user-card">
+        <div class="user-avatar-circle" id="teacherAvatar">FS</div>
+        <div class="user-meta-info">
+          <span class="user-meta-name" id="teacherName">Prof. Fernando Santos</span>
+          <span class="user-meta-badge">Docente &bull; TI</span>
+        </div>
+      </div>
+
+      <!-- Menu do Professor (9 Itens) -->
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-teacher-view="overview">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          <span>Início</span>
+        </button>
+
+        <button class="nav-item" data-teacher-view="schedule">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span>Meus horários</span>
+        </button>
+
+        <button class="nav-item" data-teacher-view="tasks">
+          <svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          <span>Gerenciar tarefas</span>
+          <span class="badge-pill" id="teacherBadgeTasks">0</span>
+        </button>
+
+        <button class="nav-item" data-teacher-view="assessments">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          <span>Gerenciar avaliações</span>
+          <span class="badge-pill" id="teacherBadgeEvals">0</span>
+        </button>
+
+        <button class="nav-item" data-teacher-view="notices">
+          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <span>Gerenciar avisos</span>
+          <span class="badge-pill" id="teacherBadgeNotices">0</span>
+        </button>
+
+        <button class="nav-item" data-teacher-view="events">
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span>Eventos</span>
+        </button>
+
+        <button class="nav-item" data-teacher-view="classes">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <span>Turmas</span>
+        </button>
+
+        <button class="nav-item" data-teacher-view="profile">
+          <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>Meu perfil</span>
+        </button>
+
+        <button class="nav-item nav-item-logout btn-action-logout">
+          <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          <span>Sair</span>
+        </button>
+      </nav>
+    </aside>
+
+    <!-- Conteúdo Principal do Professor -->
+    <div class="main-layout">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="mobile-menu-btn" data-toggle-sidebar="teacherSidebar" aria-label="Abrir menu">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+          <h2 class="topbar-page-title" id="teacherTopbarTitle">Início</h2>
+        </div>
+
+        <div class="topbar-right">
+          <!-- Filtro de Turma do Docente -->
+          <div class="class-select-wrapper">
+            <span class="class-select-label">Turma:</span>
+            <select id="teacherClassFilter" class="class-select" aria-label="Filtrar turma">
+              <option value="all">Todas as Turmas</option>
+              <option value="1DS">1º DS</option>
+              <option value="2DS" selected>2º DS</option>
+              <option value="3DS">3º DS</option>
+            </select>
+          </div>
+
+          <div class="user-header-pill">
+            <span class="user-avatar-circle" style="width:26px; height:26px; font-size:0.75rem;" id="teacherTopbarAvatar">FS</span>
+            <span id="teacherTopbarName">Prof. Fernando</span>
+          </div>
+          <button class="btn-logout-header btn-action-logout" title="Encerrar sessão">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            <span>Sair</span>
+          </button>
+        </div>
+      </header>
+
+      <main class="view-viewport" id="teacherContent">
+        <!-- 1. Professor: Início -->
+        <section class="page-view active" id="teacher-view-overview">
+          <div class="hero-editorial">
+            <div class="hero-meta-row">
+              <span class="hero-date" id="teacherHeroDate">Quinta-feira, 29 de Outubro de 2026</span>
+              <span class="hero-class-tag">Painel Docente</span>
+            </div>
+            <h2 class="hero-title" id="teacherHeroGreeting">Bom dia, Professor.</h2>
+            <p class="hero-subtitle">Gerencie suas turmas, publique comunicados acadêmicos, acompanhe entregas de tarefas e datas de avaliações.</p>
+            <div class="hero-actions">
+              <button class="btn btn-primary" id="btnQuickCreateTask">
+                <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                <span>Nova Tarefa</span>
+              </button>
+              <button class="btn btn-secondary" id="btnQuickCreateEval">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                <span>Agendar Avaliação</span>
+              </button>
+              <button class="btn btn-secondary" id="btnQuickCreateNotice">
+                <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                <span>Publicar Comunicado</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Indicadores de Gestão Docente -->
+          <div class="indicators-grid">
+            <div class="indicator-card" data-teacher-jump="tasks" tabindex="0">
+              <div class="indicator-top">
+                <span class="indicator-tag">Tarefas Ativas</span>
+                <div class="indicator-icon-box"><svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+              </div>
+              <div class="indicator-value" id="tIndTasksCount">0</div>
+              <div class="indicator-desc">Atividades escolares publicadas</div>
+            </div>
+
+            <div class="indicator-card" data-teacher-jump="assessments" tabindex="0">
+              <div class="indicator-top">
+                <span class="indicator-tag">Avaliações Agendadas</span>
+                <div class="indicator-icon-box"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+              </div>
+              <div class="indicator-value" id="tIndEvalsCount">0</div>
+              <div class="indicator-desc">Provas e bancas cadastradas</div>
+            </div>
+
+            <div class="indicator-card" data-teacher-jump="schedule" tabindex="0">
+              <div class="indicator-top">
+                <span class="indicator-tag">Próxima Aula</span>
+                <div class="indicator-icon-box"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+              </div>
+              <div class="indicator-value" id="tIndNextClass">--</div>
+              <div class="indicator-desc" id="tIndNextClassDesc">Aguardando dados...</div>
+            </div>
+
+            <div class="indicator-card" data-teacher-jump="notices" tabindex="0">
+              <div class="indicator-top">
+                <span class="indicator-tag">Comunicados</span>
+                <div class="indicator-icon-box"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+              </div>
+              <div class="indicator-value" id="tIndNoticesCount">0</div>
+              <div class="indicator-desc">Avisos publicados na escola</div>
+            </div>
+          </div>
+
+          <!-- Colunas de Resumo de Aulas do Professor e Avisos -->
+          <div class="dashboard-columns">
+            <div class="panel-block">
+              <div class="panel-header">
+                <h3 class="panel-title">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  <span>Minhas Aulas de Hoje</span>
+                </h3>
+                <span class="panel-action-link" data-teacher-jump="schedule">Ver grade completa &rarr;</span>
+              </div>
+              <div class="timeline-list" id="teacherTodaySchedule"></div>
+            </div>
+
+            <div class="panel-block">
+              <div class="panel-header">
+                <h3 class="panel-title">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                  <span>Comunicados Recentes</span>
+                </h3>
+                <span class="panel-action-link" data-teacher-jump="notices">Gerenciar comunicados &rarr;</span>
+              </div>
+              <div class="mini-task-list" id="teacherRecentNotices"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. Professor: Meus Horários -->
+        <section class="page-view" id="teacher-view-schedule">
+          <div class="view-header">
+            <div class="view-header-text">
+              <h2>Meus Horários Docentes</h2>
+              <p>Consulte sua grade semanal de aulas e laboratórios distribuídos por turma.</p>
+            </div>
+          </div>
+          <div class="days-tab-nav" id="teacherDaysNav"></div>
+          <div class="schedule-grid-cards" id="teacherScheduleCards"></div>
+        </section>
+
+        <!-- 3. Professor: Gerenciar Tarefas -->
+        <section class="page-view" id="teacher-view-tasks">
+          <div class="view-header">
+            <div class="view-header-text">
+              <h2>Gerenciar Tarefas e Trabalhos</h2>
+              <p>Cadastre novas tarefas com prazos e acompanhe as atividades das turmas.</p>
+            </div>
+            <button class="btn btn-primary" id="btnOpenModalTask">
+              <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              <span>Nova Tarefa</span>
+            </button>
+          </div>
+          <div class="filter-toolbar">
+            <div class="search-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="tTaskSearch" placeholder="Pesquisar tarefas por título ou matéria...">
+            </div>
+          </div>
+          <div class="cards-grid" id="teacherTasksGrid"></div>
+        </section>
+
+        <!-- 4. Professor: Gerenciar Avaliações -->
+        <section class="page-view" id="teacher-view-assessments">
+          <div class="view-header">
+            <div class="view-header-text">
+              <h2>Gerenciar Avaliações</h2>
+              <p>Agende provas práticas, teóricas ou bancas e informe os critérios para os estudantes.</p>
+            </div>
+            <button class="btn btn-primary" id="btnOpenModalEval">
+              <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              <span>Agendar Avaliação</span>
+            </button>
+          </div>
+          <div class="cards-grid" id="teacherAssessmentsGrid"></div>
+        </section>
+
+        <!-- 5. Professor: Gerenciar Avisos -->
+        <section class="page-view" id="teacher-view-notices">
+          <div class="view-header">
+            <div class="view-header-text">
+              <h2>Gerenciar Avisos e Comunicados</h2>
+              <p>Publique comunicados oficiais para turmas específicas ou para toda a escola.</p>
+            </div>
+            <button class="btn btn-primary" id="btnOpenModalNotice">
+              <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              <span>Novo Comunicado</span>
+            </button>
+          </div>
+          <div class="cards-grid" id="teacherNoticesGrid"></div>
+        </section>
+
+        <!-- 6. Professor: Eventos -->
+        <section class="page-view" id="teacher-view-events">
+          <div class="view-header">
+            <div class="view-header-text">
+              <h2>Eventos Escolares</h2>
+              <p>Cadastre palestras, visitas técnicas e feiras de projetos acadêmicos.</p>
+            </div>
+            <button class="btn btn-primary" id="btnOpenModalEvent">
+              <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              <span>Cadastrar Evento</span>
+            </button>
+          </div>
+          <div class="cards-grid" id="teacherEventsGrid"></div>
+        </section>
+
+        <!-- 7. Professor: Turmas -->
+        <section class="page-view" id="teacher-view-classes">
+          <div class="view-header">
+            <div class="view-header-text">
+              <h2>Turmas Vinculadas</h2>
+              <p>Relação de turmas e componentes curriculares ministrados.</p>
+            </div>
+          </div>
+          <div class="cards-grid" id="teacherClassesGrid"></div>
+        </section>
+
+        <!-- 8. Professor: Meu Perfil -->
+        <section class="page-view" id="teacher-view-profile">
+          <div class="view-header">
+            <div class="view-header-text">
+              <h2>Meu Perfil Docente</h2>
+              <p>Informações de registro funcional e componentes curriculares autorizados.</p>
+            </div>
+          </div>
+          <div class="profile-card">
+            <div class="profile-top">
+              <div class="profile-avatar-large" id="pTeacherAvatarBig">FS</div>
+              <div>
+                <h3 id="pTeacherFullName" style="font-size:1.4rem;">Prof. Fernando Santos</h3>
+                <span class="demo-pill-badge badge-teacher">Docente Autorizado</span>
+                <p id="pTeacherBio" style="margin-top:6px; font-size:0.9rem;">Professor da área de TI.</p>
+              </div>
+            </div>
+            <div class="profile-details-grid">
+              <div class="profile-detail-item">
+                <span class="profile-detail-label">E-mail Institucional</span>
+                <span class="profile-detail-val" id="pTeacherEmail">professor@etec.sp.gov.br</span>
+              </div>
+              <div class="profile-detail-item">
+                <span class="profile-detail-label">Matrícula Funcional</span>
+                <span class="profile-detail-val" id="pTeacherMatricula">DOC-2026-904</span>
+              </div>
+              <div class="profile-detail-item">
+                <span class="profile-detail-label">Turmas Atendidas</span>
+                <span class="profile-detail-val" id="pTeacherTurmas">1º DS, 2º DS, 3º DS</span>
+              </div>
+              <div class="profile-detail-item">
+                <span class="profile-detail-label">Disciplinas sob Responsabilidade</span>
+                <span class="profile-detail-val" id="pTeacherDisciplinas">DS, Programação Web I, Mobile I</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="app-footer">
+        <div class="footer-inner">
+          <div><strong>CAMPUS</strong> &bull; Painel Digital Escolar (Área do Professor)</div>
+          <div>Desenvolvimento de Sistemas &bull; ETEC</div>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       MODAIS DO SISTEMA
+       ==================================================================== -->
+
+  <!-- Modal 1: Recuperação de Senha (Esqueci minha senha) -->
+  <div class="modal-overlay" id="modalForgotPwd" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3>Recuperação de Senha</h3>
+        <button class="modal-close-btn" data-close-modal="modalForgotPwd">&times;</button>
+      </div>
+      <form id="formForgotPwd" novalidate>
+        <div class="modal-body">
+          <p style="font-size:0.88rem; color:var(--color-text-secondary);">
+            Digite seu e-mail institucional cadastrado. Enviaremos as instruções para a redefinição do seu acesso.
+          </p>
+          <div class="form-group">
+            <label for="forgotEmail">E-mail Institucional <span class="req">*</span></label>
+            <input type="email" id="forgotEmail" class="form-control" placeholder="ex: seu.nome@etec.sp.gov.br" required>
+            <div class="field-error" id="forgotEmailError">Informe um e-mail válido.</div>
+          </div>
+          <div id="forgotResultMsg" style="display:none; font-size:0.85rem; padding:10px; border-radius:6px;"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary btn-sm" data-close-modal="modalForgotPwd">Cancelar</button>
+          <button type="submit" class="btn btn-primary btn-sm">Enviar Instruções</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 2: Confirmação de Exclusão -->
+  <div class="modal-overlay" id="modalConfirmDelete" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3 id="deleteModalTitle">Confirmar Exclusão</h3>
+        <button class="modal-close-btn" data-close-modal="modalConfirmDelete">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p id="deleteModalMessage">Tem certeza de que deseja excluir este registro?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary btn-sm" data-close-modal="modalConfirmDelete">Cancelar</button>
+        <button type="button" class="btn btn-danger btn-sm" id="btnConfirmDeleteAction">Excluir</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 3: Cadastrar Tarefa (Professor) -->
+  <div class="modal-overlay" id="modalCreateTask" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3>Cadastrar Nova Tarefa ou Trabalho</h3>
+        <button class="modal-close-btn" data-close-modal="modalCreateTask">&times;</button>
+      </div>
+      <form id="formTeacherTask" novalidate>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="taskTitle">Título da Atividade <span class="req">*</span></label>
+            <input type="text" id="taskTitle" class="form-control" placeholder="Ex: Projeto Semestral de Desenvolvimento Web" required>
+            <div class="field-error">Campo obrigatório.</div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+            <div class="form-group">
+              <label for="taskSubject">Disciplina <span class="req">*</span></label>
+              <input type="text" id="taskSubject" class="form-control" placeholder="Ex: Programação Web I" required>
+              <div class="field-error">Campo obrigatório.</div>
+            </div>
+            <div class="form-group">
+              <label for="taskClass">Turma Destinatária <span class="req">*</span></label>
+              <select id="taskClass" class="form-control" required>
+                <option value="1DS">1º DS</option>
+                <option value="2DS" selected>2º DS</option>
+                <option value="3DS">3º DS</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+            <div class="form-group">
+              <label for="taskDueDate">Prazo de Entrega <span class="req">*</span></label>
+              <input type="date" id="taskDueDate" class="form-control" required>
+              <div class="field-error">Campo obrigatório.</div>
+            </div>
+            <div class="form-group">
+              <label for="taskPriority">Prioridade</label>
+              <select id="taskPriority" class="form-control">
+                <option value="high">Alta Prioridade</option>
+                <option value="medium" selected>Média Prioridade</option>
+                <option value="low">Baixa Prioridade</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="taskDescription">Descrição e Instruções <span class="req">*</span></label>
+            <textarea id="taskDescription" class="form-control" rows="3" placeholder="Orientações detalhadas para os estudantes..." required></textarea>
+            <div class="field-error">Campo obrigatório.</div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary btn-sm" data-close-modal="modalCreateTask">Cancelar</button>
+          <button type="submit" class="btn btn-primary btn-sm">Publicar Tarefa</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 4: Agendar Avaliação (Professor) -->
+  <div class="modal-overlay" id="modalCreateEval" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3>Agendar Nova Avaliação</h3>
+        <button class="modal-close-btn" data-close-modal="modalCreateEval">&times;</button>
+      </div>
+      <form id="formTeacherEval" novalidate>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="evalTitle">Título da Avaliação <span class="req">*</span></label>
+            <input type="text" id="evalTitle" class="form-control" placeholder="Ex: Avaliação Intermediária de Banco de Dados" required>
+            <div class="field-error">Campo obrigatório.</div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+            <div class="form-group">
+              <label for="evalSubject">Disciplina <span class="req">*</span></label>
+              <input type="text" id="evalSubject" class="form-control" placeholder="Ex: Banco de Dados II" required>
+              <div class="field-error">Campo obrigatório.</div>
+            </div>
+            <div class="form-group">
+              <label for="evalClass">Turma <span class="req">*</span></label>
+              <select id="evalClass" class="form-control" required>
+                <option value="1DS">1º DS</option>
+                <option value="2DS" selected>2º DS</option>
+                <option value="3DS">3º DS</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+            <div class="form-group">
+              <label for="evalDate">Data da Avaliação <span class="req">*</span></label>
+              <input type="date" id="evalDate" class="form-control" required>
+              <div class="field-error">Campo obrigatório.</div>
+            </div>
+            <div class="form-group">
+              <label for="evalTime">Horário</label>
+              <input type="text" id="evalTime" class="form-control" placeholder="Ex: 07:30 - 09:10">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="evalFormat">Formato</label>
+            <select id="evalFormat" class="form-control">
+              <option value="Prática em Laboratório">Prática em Laboratório</option>
+              <option value="Prova Individual">Prova Individual</option>
+              <option value="Apresentação Técnica">Apresentação Técnica</option>
+              <option value="Banca Avaliadora">Banca Avaliadora</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="evalDesc">Descrição e Observações <span class="req">*</span></label>
+            <textarea id="evalDesc" class="form-control" rows="3" placeholder="Critérios cobrados e orientações para estudo..." required></textarea>
+            <div class="field-error">Campo obrigatório.</div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary btn-sm" data-close-modal="modalCreateEval">Cancelar</button>
+          <button type="submit" class="btn btn-primary btn-sm">Agendar Avaliação</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 5: Publicar Comunicado (Professor) -->
+  <div class="modal-overlay" id="modalCreateNotice" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3>Publicar Comunicado Escolar</h3>
+        <button class="modal-close-btn" data-close-modal="modalCreateNotice">&times;</button>
+      </div>
+      <form id="formTeacherNotice" novalidate>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="noticeTitle">Título do Comunicado <span class="req">*</span></label>
+            <input type="text" id="noticeTitle" class="form-control" placeholder="Ex: Orientações para a Feira Tecnológica" required>
+            <div class="field-error">Campo obrigatório.</div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+            <div class="form-group">
+              <label for="noticeCategory">Categoria <span class="req">*</span></label>
+              <select id="noticeCategory" class="form-control" required>
+                <option value="Geral">Geral</option>
+                <option value="Acadêmico">Acadêmico</option>
+                <option value="Evento">Evento</option>
+                <option value="Alteração de horário">Alteração de horário</option>
+                <option value="Ausência de professor">Ausência de professor</option>
+                <option value="Urgente">Urgente</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="noticeTarget">Público Destinatário <span class="req">*</span></label>
+              <select id="noticeTarget" class="form-control" required>
+                <option value="Todas">Todas as Turmas</option>
+                <option value="1DS">1º DS</option>
+                <option value="2DS">2º DS</option>
+                <option value="3DS">3º DS</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="noticeContent">Conteúdo da Mensagem <span class="req">*</span></label>
+            <textarea id="noticeContent" class="form-control" rows="4" placeholder="Escreva o comunicado detalhado..." required></textarea>
+            <div class="field-error">Campo obrigatório.</div>
+          </div>
+
+          <div class="form-group" style="flex-direction:row; align-items:center; gap:8px;">
+            <input type="checkbox" id="noticeConfirmed" checked>
+            <label for="noticeConfirmed" style="font-weight:500; cursor:pointer;">Validado pela coordenação escolar (RN06)</label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary btn-sm" data-close-modal="modalCreateNotice">Cancelar</button>
+          <button type="submit" class="btn btn-primary btn-sm">Publicar Comunicado</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 6: Cadastrar Evento (Professor) -->
+  <div class="modal-overlay" id="modalCreateEvent" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3>Cadastrar Evento Escolar</h3>
+        <button class="modal-close-btn" data-close-modal="modalCreateEvent">&times;</button>
+      </div>
+      <form id="formTeacherEvent" novalidate>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="eventTitle">Título do Evento <span class="req">*</span></label>
+            <input type="text" id="eventTitle" class="form-control" placeholder="Ex: Maratona de Programação ETEC" required>
+            <div class="field-error">Campo obrigatório.</div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+            <div class="form-group">
+              <label for="eventDate">Data <span class="req">*</span></label>
+              <input type="date" id="eventDate" class="form-control" required>
+              <div class="field-error">Campo obrigatório.</div>
+            </div>
+            <div class="form-group">
+              <label for="eventTime">Horário</label>
+              <input type="text" id="eventTime" class="form-control" placeholder="Ex: 08:00 - 12:00">
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+            <div class="form-group">
+              <label for="eventLocation">Local</label>
+              <input type="text" id="eventLocation" class="form-control" placeholder="Ex: Auditório Principal">
+            </div>
+            <div class="form-group">
+              <label for="eventCategory">Categoria</label>
+              <select id="eventCategory" class="form-control">
+                <option value="Palestra Técnica">Palestra Técnica</option>
+                <option value="Competição Acadêmica">Competição Acadêmica</option>
+                <option value="Visita Técnica">Visita Técnica</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="eventClasses">Turmas Envolvidas</label>
+            <input type="text" id="eventClasses" class="form-control" placeholder="Ex: 2DS ou Todas">
+          </div>
+
+          <div class="form-group">
+            <label for="eventDesc">Descrição do Evento <span class="req">*</span></label>
+            <textarea id="eventDesc" class="form-control" rows="3" placeholder="Detalhes e objetivos do evento..." required></textarea>
+            <div class="field-error">Campo obrigatório.</div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary btn-sm" data-close-modal="modalCreateEvent">Cancelar</button>
+          <button type="submit" class="btn btn-primary btn-sm">Salvar Evento</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Prateleira Flutuante de Toasts -->
+  <div class="toast-shelf" id="toastShelf" aria-live="polite"></div>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
